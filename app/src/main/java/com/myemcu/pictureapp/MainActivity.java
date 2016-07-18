@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -14,11 +15,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import static android.Manifest.permission.*; // 手打，new String[]{READ_EXTERNAL_STORAGE}用
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
 
     private static final int REQUEST_READ_STORAGE = 3; // 定义私有静态整形常量
     SimpleCursorAdapter adapter;                       // 定义游标适配器,专在涉及数据库查询中用
@@ -53,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         grid.setAdapter(adapter);
         // 使用CursorLoader节约存取开销(存取外部SD卡)
         getLoaderManager().initLoader(0, null, this); // this红浪后按Alt+Enter键生成下面的3个方法
+
+        // 添加点击事件处理器
+        grid.setOnItemClickListener(this); //此处,Alt+Enter实现生成的两个方法
     }
 
     @Override
@@ -93,5 +99,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    @Override// 实现画面转换
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this,DetailActivity.class); //活动跳转
+        intent.putExtra("POSITION", position); //将点击的位置传入Intent对象中
+        startActivity(intent);
     }
 }
