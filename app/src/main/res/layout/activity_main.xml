@@ -10,8 +10,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.myemcu.pictureapp.MainActivity">
 
-    <TextView
+    <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:id="@+id/grid"
+
+        android:layout_centerHorizontal="true"
+        android:numColumns="3"/>
 </RelativeLayout>
